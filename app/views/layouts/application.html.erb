@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MakeDemo</title>
+  	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  	<%= csrf_meta_tags %>
+</head>
+<body>
+<%= yield %>
+	<% content_for :jquery_code do %>
+		<script type='text/javascript'>
+		  $(document).ready(function()
+		  {
+		    $('#form-input').submit(function(){
+		      $.post('users/inputted', $(this).serialize(),
+		        function(data){
+		          	$('.return-data').html(data.to_append);
+		          	$('.return-string').text(String(data.to_append));
+		        }, 'json'
+		        );
+		      return false;
+		    });
+		  });
+		</script>
+	<% end %>
+<%= yield :jquery_code %>
+<h1><div id='header'>
+	<h3>This is the make gem demo. In the following input field, test out the gem by making the query! For example, start with "Make.form.model('User').now!"</h3>
+</div>
+<form id='form-input' action='users/inputted' method='post'>
+	<input type='string' name='input'></input>
+	<input id="authenticity_token" name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+	<input type="submit" value="Submit"></form>
+</form>
+<div class='return-data'>
+</div>
+<div class='return-string'>
+</div>
+
+</body>
+</html>
