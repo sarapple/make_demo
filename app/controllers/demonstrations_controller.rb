@@ -55,7 +55,7 @@ class DemonstrationsController < ApplicationController
       
 
 
-      # Portion added to UL's demo code for form section, by Sara
+      # Portion added to UL's demo code for form section, by Sara --->
       when 'form'
         @to_send=['model']
         session[:form] = true;
@@ -82,7 +82,7 @@ class DemonstrationsController < ApplicationController
        when 'no_pw_confirm'
         session[:formChain].delete('no_pw_confirm')    
         @to_send=session[:formChain] + ['now!']
-        
+      # <--- Portion added to UL's demo code for form section, by Sara      
 
 
 

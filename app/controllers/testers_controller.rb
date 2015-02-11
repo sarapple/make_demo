@@ -1,6 +1,5 @@
 class TestersController < ApplicationController
-	def tester
-		render 'tester'
+	def index
 	end
 	def inputted
 		if params[:input][0..3] != 'Make'
