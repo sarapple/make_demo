@@ -1,6 +1,7 @@
 class TestersController < ApplicationController
 	def index
-		@form = Make.form.model('State').now!
+		@stateForm = Make.form.model('State').now!
+		@stateTable = Make.table.model('State').now!
 	end
 	def inputted
 		if params[:input][0..3] != 'Make'
@@ -12,15 +13,15 @@ class TestersController < ApplicationController
 	end
 	def states
 		State.create (state_params)
-		redirect_to '/demonstrations/tester'
+		redirect_to '/testers/index'
 	end
 	def users
 		User.create (user_params)
-		redirect_to '/demonstrations/tester'
+		redirect_to '/testers/index'
 	end
 	def blogs
 		Blog.create (blog_params)
-		redirect_to '/demonstrations/tester'
+		redirect_to '/testers/index'
 	end
 	def user_params
 		params.require(:user).permit(:email, :first_name, :middle_name, :last_name, :password, :password_confirmation, :state_id)
