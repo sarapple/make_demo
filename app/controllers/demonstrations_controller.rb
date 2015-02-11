@@ -6,6 +6,7 @@ class DemonstrationsController < ApplicationController
     session[:tree]={'Make'=>['custom','table']}
     session[:custom]=false
     session[:form]=false
+    redirect_to '/demonstrations/tester'
   end
   def find
     @to_send=[]
