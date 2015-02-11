@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'demonstrations/index'
-  get 'demonstrations/tester'
+  get 'demonstrations/tester' =>'demonstrations#tester'
   get '/tester' => 'demonstrations#tester'
   get 'demonstrations/doc'
   post 'demonstrations/inputted'
