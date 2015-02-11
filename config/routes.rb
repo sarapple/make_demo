@@ -1,11 +1,8 @@
 Rails.application.routes.draw do
+  get 'testers/tester'
+
   get 'demonstrations/index'
   get 'demonstrations/doc'
-  get 'demonstrations/tester'
-  post 'demonstrations/inputted'
-  post '/states' => 'demonstrations#states'
-  post '/blogs' => 'demonstrations#blogs'
-  post '/users' =>  'demonstrations#users'
 
   get 'demonstrations/add/:method'=>'demonstrations#find'
 
@@ -13,11 +10,15 @@ Rails.application.routes.draw do
 
   post 'demonstrations/run'=>'demonstrations#run'
 
+  post '/states' => 'testers#states'
+  post '/blogs' => 'testers#blogs'
+  post '/users' =>  'testers#users'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'demonstrations#index'
+  root 'testers#tester'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
