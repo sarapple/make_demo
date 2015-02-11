@@ -133,6 +133,5 @@ class DemonstrationsController < ApplicationController
     params.require(:blog).permit(:title, :user_id)
   end
   def tester
-    render 'tester'
   end
 end

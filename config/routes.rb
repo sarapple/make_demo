@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'demonstrations/index'
+  get 'demonstrations/tester'
   get '/tester' => 'demonstrations#tester'
   get 'demonstrations/doc'
   post 'demonstrations/inputted'
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'demonstrations#tester'
+  root 'demonstrations#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
