@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  get 'testers/tester'
+  get 'testers/index'
+  post 'states' => 'testers#states'
+  post 'blogs' => 'testers#blogs'
+  post 'users' =>  'testers#users'
 
   get 'demonstrations/index'
   get 'demonstrations/doc'
@@ -10,9 +13,6 @@ Rails.application.routes.draw do
 
   post 'demonstrations/run'=>'demonstrations#run'
 
-  post '/states' => 'testers#states'
-  post '/blogs' => 'testers#blogs'
-  post '/users' =>  'testers#users'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
