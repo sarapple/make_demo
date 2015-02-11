@@ -1,5 +1,6 @@
 class TestersController < ApplicationController
 	def index
+		@form = Make.form.model('State').now!
 	end
 	def inputted
 		if params[:input][0..3] != 'Make'
