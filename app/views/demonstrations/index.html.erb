@@ -1,2 +1,169 @@
-<h1>Demonstrations#index</h1>
-<p>Find me in app/views/demonstrations/index.html.erb</p>
+<% content_for :jquery_code do %>
+	<script type="text/javascript">
+		$(document).on('mouseenter','.action:not(#clear)',function(){
+			$(this).css('opacity','0.5');
+			$(this).css('cursor','pointer');
+			var hovered='.'+$(this).attr('action').replace('add/','');
+			var description='';
+			switch(hovered){
+				case '.custom':
+					description="(<span class='integer'>columns</span>,<span class='integer'>rows</span>)<br>Creates a custom-size table with empty cells."
+					break;
+				case '.th':
+					description="('<span class='string'>Column Name 1</span>','<span class='string'>Column Name 2</span>',...)<br>Creates a custom headers."
+					break;
+				case '.table':
+					description="Needed to create a largely preformatted table from database content."
+					break;
+				case '.model':
+					description="('<span class='string'>Model_name_as_string</span>')<br>Specifies model to derive content from. Default tables and forms will ignore the 'id', 'created_at', and 'updated_at' columns! <br>Tables: Any column containing passwords are always hidden. For rows, Also, all rows will come with default show/edit/destroy links!<br>Forms: Any column with password in the name will make the form contain a 'password' field"
+					break;
+				case '.order':
+					description="('<span class='string'>column ORDER</span>')<br>Orders the data by ASC/DESC."
+					break;
+				case '.cut':
+					description="('<span class='string'>column</span>')<br>Hides a column that would otherwise display by default."
+					break;
+				case '.limit':
+					description="(<span class='integer'>integer</span>)<br>Limits the number of rows shown by the given integer; note: do not pass a string."
+					break;
+				case '.combo':
+					description="{'<span class='string'>New Combined Column Name</span>'=>['<span class='string'>column_to_combine_1</span>','<span class='string'>column_to_combine_2</span>',...]}<br>Combines multiple columns into one and creates a name for that new column; you must pass in a hash."
+					break;
+				case '.show':
+					description="('<span class='string'>column</span>')<br>Displays a column that by default would be hidden (i.e., 'id', 'created_at', 'updated_at'. Any column containing passwords are always hidden."
+					break;
+				case '.file':
+					description="Prints complete html table code in table_html.txt (located in your root application folder)! Just copy it and paste into your html file(s)!"
+					break;
+				case '.for!':
+					description="Prints shorter html table code using for loops in table_html.txt (located in your root application folder)! Just copy it and paste into your html file(s) - note the comment and the line of code needed for your controller file."
+					break;
+				case '.now!':
+					description="Finally renders your table or form in your chosen view file. If your controller has a line like '@table=Main.table.model('Person').file.now!', then your view file should have '<%= @table %>' - that's it!"
+					break;
+				//Sara's added portions regarding form
+				case '.form':
+					description="Create a form template for setting up a new form"
+					break;
+				case '.action':
+					description="(<span class='string'>url</span>)<br>Change the form action/url customized to your routes"
+					break;
+				case '.class':
+					description="(<span class='string'>className</span>)<br>Change the form action/url customized to your routes"
+					break;
+				case '.default':
+					description="(<span class='string'>column</span>), (<span class='integer'>value</span>)<br>Set a default value for a specific column/field. Because no options exist, it will be a hidden field. Value is the default value (which can be a variable)"
+					break;
+				case '.method':
+					description="(<span class='string'>type</span>), (<span class='integer'>id</span>)Change the post method to a put or patch. Id is the variable that will be passed in as part of the form's action/url. Id can be an exact integer or a variable"
+					break;
+				case '.select':
+					description="(<span class='string'>column</span>), (<span class='array'>array</span>), (<span class='exact'>assoc=true</span>) Similar to default, but for multiple values.Based on an array of options, you can create a select/option field. If in the third optional parameter you type 'assoc=true', it will find the associated table and corresponding value to that id"
+					break;
+				case '.no-pw-confirm':
+					description="By default, a confirmation password is requested. Password_confirmation will not be added to the form by chaining this method."
+					break;
+			}
+			$('#method_description h3').html(hovered);
+			$('#method_description p').html(description);
+			$(this).mouseleave(function(){
+				$(this).css('opacity','1');
+				$(this).css('cursor','auto');
+				$('#method_description').children().html('');
+			});
+		});
+		$(document).ready(function(){
+			$('#run_code_form').submit(function(){
+				$.post(
+					$(this).attr('action'),
+					$(this).serialize(),
+					function(data){
+						console.log('got back from form!!!!');
+						console.log(data.to_append);
+						$('#table_result').append(data.to_append);
+					},
+					'json'
+				);
+				return false;
+			});
+		});
+		$(document).on('click','.action',function(){
+			if(this.id!='clear'){
+				$(this).removeClass('action');
+				$(this).siblings().remove();
+			}
+			var clicked='.'+$(this).attr('action').replace('add/','');
+			$.get(
+				'demonstrations/'+$(this).attr('action'),
+				$(this).serialize(),
+				function(data){
+					if(data.to_append=='CLEAR'){
+						$('#your_code').html('');
+						$('.action_column').remove();
+						$('#tree').append('<div class="nestled action_column"><p class="action green" action="add/table">.table</p><p class="action pink" action="add/form">.form</p></div>');
+						$('#success').hide();
+						$('#sample_code').removeClass('workable');
+						$('#table_result').html('');
+					}else{
+						var rows='';
+						for(method in data.to_append){
+
+// ADDED jQUERY
+							var color='green';
+							var pinks=['action','class','default','method','middle','no_pw_confirm','select'];
+							for(i in pinks){
+								if(pinks[i]==data.to_append[method]){
+									color='pink';
+								}
+							}
+							rows+='<p class="action '+color+'" action="add/'+data.to_append[method]+'">.'+data.to_append[method]+'</p>';
+
+
+						}
+						$('#tree').append('<div class="nestled action_column">'+rows+'</div>');
+						if(data.code.length){
+							data.code='('+data.code+')';
+						}
+						$('#your_code').append(clicked+data.code);
+						$('#run_code').val($('#your_code').html());
+						if(data.workable){
+							$('#sample_code').addClass('workable');
+							$('#success').show();
+						}
+					}
+				},
+				'json'
+				);
+			return false;
+		});
+	</script>
+<% end %>
+
+
+<h1>MAKE.gem Demonstration</h1>
+<div class="nestled first_cols">
+	<p>Make</p>
+</div>
+
+<!-- CHANGED THIS - Added a 'form' box -->
+<div id="tree" class="nestled">
+	<div class="nestled first_cols action_column">
+		<p class="action green" action="add/table">.table</p>
+		<p class="action pink" action="add/form">.form</p>
+	</div>
+</div>
+<div id="method_description">
+	<h3></h3>
+	<p></p>
+</div>
+<p class="instructions">Your code must end with <span class="boxed">.for!</span>, <span class="boxed">.file</span> or <span class="boxed">.now!</span>; you can use <span class="boxed">.file.now!</span> on a non-<span class="boxed">.custom</span> table.</p>
+<h3 class="nestled" id="sample_code">Sample code: Make<span id="your_code"></span><span class="nestled" id="success"> (That'll do!)</span></h3><br>
+<button id="clear" class="action nestled" action="clear">Clear</button>
+<form class="nestled" id="run_code_form" action="/demonstrations/run" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<input id="run_code" type="hidden" name="run_code" val="">
+	<input type="submit" value="Run">
+</form>
+<div id="table_result">
+</div>

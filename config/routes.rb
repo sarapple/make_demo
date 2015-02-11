@@ -1,14 +1,25 @@
 Rails.application.routes.draw do
   get 'demonstrations/index'
-
+  get 'demonstrations/tester'
   get 'demonstrations/doc'
   post 'demonstrations/inputted'
+  post '/states' => 'demonstrations#states'
+  post '/blogs' => 'demonstrations#blogs'
+  post '/users' =>  'demonstrations#users'
+  
+  get 'demonstrations/index'
+
+  get 'demonstrations/add/:method'=>'demonstrations#find'
+
+  get 'demonstrations/clear'=>'demonstrations#clear'
+
+  post 'demonstrations/run'=>'demonstrations#run'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'demonstrations#doc'
+  root 'demonstrations#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
