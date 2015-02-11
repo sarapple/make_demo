@@ -4,7 +4,7 @@ class TestersController < ApplicationController
 		@stateTable = Make.table.model('State').now!
 		@userForm = Make.form.model('User').select('state_id', (1..5).select, assoc=true).now!
 		@userTable = Make.table.model('User').now!
-		@blogForm = Make.form.model('Blog').default('user_id', 1).now!
+		@blogForm = Make.form.model('Blog')..select('user_id', (1..4).select, assoc=true).now!
 		@blogTable = Make.table.model('Blog').now!
 	end
 	def inputted
