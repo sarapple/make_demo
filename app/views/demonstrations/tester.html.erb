@@ -26,9 +26,18 @@
 </div>
 <div class='return-string'>
 </div>
+<br>
+<br>
+<br>
 <div id='form'>Make state<%=Make.form.model('State').now!%></div>
 <div id='form'>State Table<%=Make.table.model('State').now!%></div>
+<br>
+<br>
+<br>
 <div id='form'>Make User<%=Make.form.model('User').select('state_id', (1..16).select, assoc=true).now!%></div>
 <div id='form'>User Table<%=Make.table.model('User').now!%></div>
+<br>
+<br>
+<br>
 <div id='form'>Make Blog<%=Make.form.model('Blog').default('user_id', 1).now!%></div>
 <div id='form'>Blog Table<%=Make.table.model('Blog').now!%></div>

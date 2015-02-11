@@ -1,6 +1,6 @@
 class DemonstrationsController < ApplicationController
   def index
-      @message=''
+    @message=''
     session[:formChain] = ['action', 'class', 'default', 'method', 'select', 'no_pw_confirm']
     session[:chainable]=['th','order','cut','limit','combo','show']
     session[:tree]={'Make'=>['custom','table']}
@@ -17,6 +17,9 @@ class DemonstrationsController < ApplicationController
     if ['custom','for!'].include? params[:method]
       @color='pink'
     end
+    if 'model' == params[:method] && @form
+      @color='pink'
+    end
     case params[:method]
       when 'table'
         @to_send=['model','custom']
@@ -26,9 +29,10 @@ class DemonstrationsController < ApplicationController
         @to_send=['th']
         @code="5,15"
       when 'model'
-        # Portion added to UL's code for form section
+        # Portion added to UL's code for form section -->
         if session[:form]
           @to_send=session[:formChain]
+        # <-- Portion added to UL's code for form section
         else 
           @to_send=session[:chainable]+['file','for!','now!']
         end
@@ -127,8 +131,8 @@ class DemonstrationsController < ApplicationController
   end
   def blog_params
     params.require(:blog).permit(:title, :user_id)
-
   end
   def tester
+    render 'tester'
   end
 end
