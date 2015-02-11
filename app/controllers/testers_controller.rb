@@ -2,6 +2,8 @@ class TestersController < ApplicationController
 	def index
 		@stateForm = Make.form.model('State').now!
 		@stateTable = Make.table.model('State').now!
+		@userForm = Make.form.model('User').select('state_id', (1..16).select, assoc=true).now!
+		@userTable = Make.table.model('User').now!
 	end
 	def inputted
 		if params[:input][0..3] != 'Make'
