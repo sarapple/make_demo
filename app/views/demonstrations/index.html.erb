@@ -86,17 +86,48 @@
 						$('#table_result').append(data.to_append);
 						$('.pretty').text(String(data.to_append));
 						var width = $('#table_result').width();
-						$('#table_result').css('width', '0px');
-						$('#html_result').css('width', '0px');
-						$('#tree').css('height', 'auto');
-						$('#html_result').show();
-						$('#table_result').show();		
-						$( "#html_result, #table_result" ).animate(
-							{ width: width }, 
-							{ 	duration: 2000
+						if(String(data.to_append[1])=='f')
+						{
+							$('#html_result, #table_result').css('clear', 'none');
+							$('#html_result, #table_result').css('display', 'inline-block');
+							$('#table_result').css('height', '100%');
+							$('#table_result form').css('margin', '0');
+							var height = $('#table_result').height();
+							var rwidth = $('.results').width();
+							html_width = rwidth-width;
+							$('#table_result').css('width', '0px');
+							$('#html_result').css('width', '0px');
+							$('#html_result').css('height', '0px');
+							$('#html_result').show();
+							$('#table_result').show();
+							$( "#table_result" ).animate(
+								{ 	width: width,
+									height: '100%' },
+								 {	duration: 2000 }
 								// ,specialEasing: 
 								// { width: "linear" }
-						});
+							);	
+							$( "#html_result" ).animate(
+								{ 	height: height,
+									width: html_width-20 }, 
+								 {	duration: 2000 }
+								// ,specialEasing: 
+								// { width: "linear" }
+							);	
+						}
+						else {
+							$('#table_result').css('width', '0px');
+							$('#html_result').css('width', '0px');
+							$('#html_result').show();
+							$('#table_result').show();	
+							$( "#html_result, #table_result" ).animate(
+								{ width: width }, 
+								{ duration: 2000 }
+								// ,specialEasing: 
+								// { width: "linear" }
+							);	
+						}
+						$('#tree').css('height', 'auto');
 						// $( "#table_result" ).animate(
 						// 	{ width: width }, 
 						// 	{ 	duration: 2000,specialEasing: 
@@ -169,66 +200,64 @@
 <% end %>
 
 <div class='container'>
-	<!-- <div class='main'> -->
-		<div class='row'>
-			<div class='c8 o2 margin-top margin-bottom'>
-				<div id='top'>
-					<div class='c5 o1 align-top'><h3>MAKE.gem Demonstration</h3></div>
-					<div class='buttons c5 o1'>
-						<form class="nestled" id="run_code_form" action="/demonstrations/run" method="post">
-							<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-							<input id="run_code" type="hidden" name="run_code" val="">
-							<input class='runit' type="submit" value="Run">
-						</form>
-						<button id="clear" class="btn action nestled" action="clear">Clear</button>
-					</div>
+	<div class='row'>
+		<div class='c8 o2 margin-top margin-bottom'>
+			<div id='top'>
+				<div class='c5 o1 align-top'><h3>MAKE.gem Demonstration</h3></div>
+				<div class='buttons c5 o1'>
+					<form class="nestled" id="run_code_form" action="/demonstrations/run" method="post">
+						<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+						<input id="run_code" type="hidden" name="run_code" val="">
+						<input class='runit' type="submit" value="Run">
+					</form>
+					<button id="clear" class="btn action nestled" action="clear">Clear</button>
 				</div>
 			</div>
 		</div>
-		<div class='row'>
-			<div class='c8 o2'>
-				<div class="nestled first_cols">
-					<p>Make</p>
-				</div>
+	</div>
+	<div class='row'>
+		<div class='c8 o2'>
+			<div class="nestled first_cols">
+				<p>Make</p>
+			</div>
 
 <!-- CHANGED THIS - Added a 'form' box -->
-				<div id="tree" class="nestled">
-					<div class="nestled first_cols action_column">
-						<p class="action green" action="add/table">.table</p>
-						<p class="action pink" action="add/form">.form</p>
-					</div>
+			<div id="tree" class="nestled">
+				<div class="nestled first_cols action_column">
+					<p class="action green" action="add/table">.table</p>
+					<p class="action pink" action="add/form">.form</p>
 				</div>
 			</div>
 		</div>
-		<div class='row'>
-			<div class='c8 o2 clear-top'>
-				<div class='results'>
-					<div id="table_result">
-					</div>
-					<div id="html_result">
-						<pre class="pretty">
-						</pre>
-					</div>
+	</div>
+	<div class='row'>
+		<div class='c8 o2 clear-top'>
+			<div class='results'>
+				<div id="table_result">
+				</div>
+				<div id="html_result">
+					<pre class="pretty">
+					</pre>
 				</div>
 			</div>
 		</div>
-		<div class='row'>
-			<div class="c8 o2">
-				<div id="method_description">
-					<h3></h3>
-					<p></p>
-				</div>
+	</div>
+	<div class='row'>
+		<div class="c8 o2">
+			<div id="method_description">
+				<h3></h3>
+				<p></p>
 			</div>
 		</div>
-		<div class='row'>
-			<div class="c8 o2 margin-top">
-				<p class="instructions">*Your code must end with <span class="boxed">.for!</span>, <span class="boxed">.file</span> or <span class="boxed">.now!</span>; you can use <span class="boxed">.file.now!</span> on a non-<span class="boxed">.custom</span> table.</p>
-			</div>
+	</div>
+	<div class='row'>
+		<div class="c8 o2 margin-top">
+			<p class="instructions">*Your code must end with <span class="boxed">.for!</span>, <span class="boxed">.file</span> or <span class="boxed">.now!</span>; you can use <span class="boxed">.file.now!</span> on a non-<span class="boxed">.custom</span> table.</p>
 		</div>
-		<div class='row'>
-			<div class="c8 o2 margin-top margin-bottom">
-				<h3 class="nestled" id="sample_code">Sample code: Make<span id="your_code"></span><span class="nestled" id="success"> (That'll do!)</span></h3><br>
-			</div>
+	</div>
+	<div class='row'>
+		<div class="c8 o2 margin-top margin-bottom">
+			<h3 class="nestled" id="sample_code">Sample code: Make<span id="your_code"></span><span class="nestled" id="success"> (That'll do!)</span></h3><br>
 		</div>
-	<!-- </div> -->
+	</div>
 </div>
