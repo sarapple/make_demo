@@ -27,12 +27,14 @@ class DemonstrationsController < ApplicationController
       when 'custom'
         session[:custom]=true
         @to_send=['th']
-        @code="5,15"
+        @code="5,8"
       when 'model'
+
         # Portion added to UL's code for form section -->
         if session[:form]
           @to_send=session[:formChain]
         # <-- Portion added to UL's code for form section
+        
         else 
           @to_send=session[:chainable]+['file','for!','now!']
         end
@@ -51,8 +53,6 @@ class DemonstrationsController < ApplicationController
           @to_send=['now!']
         end
         @workable=true
-
-      
 
 
       # Portion added to UL's demo code for form section, by Sara --->
@@ -84,9 +84,7 @@ class DemonstrationsController < ApplicationController
         @to_send=session[:formChain] + ['now!']
       # <--- Portion added to UL's demo code for form section, by Sara      
 
-
-
-        else
+       else
         # puts 'what'
         @workable=true
     end
@@ -100,6 +98,7 @@ class DemonstrationsController < ApplicationController
   def run
     params[:run_code]=params[:run_code].gsub('=&gt;','=>')
     @message=eval("Make"+params[:run_code])
-    render json:{:to_append=>@message}
+    @string = @message.to_s
+    render json:{:to_append=>@message }
   end
 end

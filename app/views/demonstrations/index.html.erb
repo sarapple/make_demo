@@ -74,14 +74,37 @@
 			});
 		});
 		$(document).ready(function(){
+			$('#table_result').hide();
+			$('#html_result').hide();
 			$('#run_code_form').submit(function(){
 				$.post(
 					$(this).attr('action'),
 					$(this).serialize(),
 					function(data){
-						console.log('got back from form!!!!');
+						$('#method_description').hide();
 						console.log(data.to_append);
 						$('#table_result').append(data.to_append);
+						$('.pretty').text(String(data.to_append));
+						var width = $('#table_result').width();
+						$('#table_result').css('width', '0px');
+						$('#html_result').css('width', '0px');
+						$('#tree').css('height', 'auto');
+						$('#html_result').show();
+						$('#table_result').show();		
+						$( "#html_result, #table_result" ).animate(
+							{ width: width }, 
+							{ 	duration: 2000
+								// ,specialEasing: 
+								// { width: "linear" }
+						});
+						// $( "#table_result" ).animate(
+						// 	{ width: width }, 
+						// 	{ 	duration: 2000,specialEasing: 
+						// 		{ width: "linear" }
+						// });
+						// $('#html_result').mouseoff(function(){
+						// 	$( "#html_result" ).toggleClass( "onscreen" );
+						// });
 					},
 					'json'
 				);
@@ -93,9 +116,16 @@
 				$(this).removeClass('action');
 				$(this).siblings().remove();
 			}
+			else {
+				$('#tree').css('height', '230px');
+				$('#method_description').show();
+				$('.pretty').hide();
+				$('#table_result').hide();
+				$('#html_result').hide();
+			}
 			var clicked='.'+$(this).attr('action').replace('add/','');
 			$.get(
-				'demonstrations/'+$(this).attr('action'),
+				'/demonstrations/'+$(this).attr('action'),
 				$(this).serialize(),
 				function(data){
 					if(data.to_append=='CLEAR'){
@@ -118,8 +148,6 @@
 								}
 							}
 							rows+='<p class="action '+color+'" action="add/'+data.to_append[method]+'">.'+data.to_append[method]+'</p>';
-
-
 						}
 						$('#tree').append('<div class="nestled action_column">'+rows+'</div>');
 						if(data.code.length){
@@ -140,33 +168,67 @@
 	</script>
 <% end %>
 
-
-<h1>MAKE.gem Demonstration</h1>
-<div class="nestled first_cols">
-	<p>Make</p>
-</div>
+<div class='container'>
+	<!-- <div class='main'> -->
+		<div class='row'>
+			<div class='c8 o2 margin-top margin-bottom'>
+				<div id='top'>
+					<div class='c5 o1 align-top'><h3>MAKE.gem Demonstration</h3></div>
+					<div class='buttons c5 o1'>
+						<form class="nestled" id="run_code_form" action="/demonstrations/run" method="post">
+							<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+							<input id="run_code" type="hidden" name="run_code" val="">
+							<input class='runit' type="submit" value="Run">
+						</form>
+						<button id="clear" class="btn action nestled" action="clear">Clear</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='c8 o2'>
+				<div class="nestled first_cols">
+					<p>Make</p>
+				</div>
 
 <!-- CHANGED THIS - Added a 'form' box -->
-<div id="tree" class="nestled">
-	<div class="nestled first_cols action_column">
-		<p class="action green" action="add/table">.table</p>
-		<p class="action pink" action="add/form">.form</p>
-	</div>
-</div>
-<div id="method_description">
-	<h3></h3>
-	<p></p>
-</div>
-<p class="instructions">Your code must end with <span class="boxed">.for!</span>, <span class="boxed">.file</span> or <span class="boxed">.now!</span>; you can use <span class="boxed">.file.now!</span> on a non-<span class="boxed">.custom</span> table.</p>
-<h3 class="nestled" id="sample_code">Sample code: Make<span id="your_code"></span><span class="nestled" id="success"> (That'll do!)</span></h3><br>
-<button id="clear" class="action nestled" action="clear">Clear</button>
-<form class="nestled" id="run_code_form" action="/demonstrations/run" method="post">
-	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-	<input id="run_code" type="hidden" name="run_code" val="">
-	<input type="submit" value="Run">
-</form>
-<a href='/testers/index'>Tester</a>
-<div id="form_result"
-</div>
-<div id="table_result">
+				<div id="tree" class="nestled">
+					<div class="nestled first_cols action_column">
+						<p class="action green" action="add/table">.table</p>
+						<p class="action pink" action="add/form">.form</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='c8 o2 clear-top'>
+				<div class='results'>
+					<div id="table_result">
+					</div>
+					<div id="html_result">
+						<pre class="pretty">
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class="c8 o2">
+				<div id="method_description">
+					<h3></h3>
+					<p></p>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class="c8 o2 margin-top">
+				<p class="instructions">*Your code must end with <span class="boxed">.for!</span>, <span class="boxed">.file</span> or <span class="boxed">.now!</span>; you can use <span class="boxed">.file.now!</span> on a non-<span class="boxed">.custom</span> table.</p>
+			</div>
+		</div>
+		<div class='row'>
+			<div class="c8 o2 margin-top margin-bottom">
+				<h3 class="nestled" id="sample_code">Sample code: Make<span id="your_code"></span><span class="nestled" id="success"> (That'll do!)</span></h3><br>
+			</div>
+		</div>
+	<!-- </div> -->
 </div>
