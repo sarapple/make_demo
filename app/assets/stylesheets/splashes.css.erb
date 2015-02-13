@@ -1,0 +1,107 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+.bold{
+	font-weight: bolder;
+}
+.nestled{
+	display: inline-block;
+	vertical-align: top;
+}
+.green{
+	color: RGB(127,226,46);
+}
+.cyan{
+	font-style: italic;
+	color: RGB(38,188,244);
+}
+.yellow{
+	color: RGB(230,191,77);
+}
+.white{
+	color: white;
+}
+.crimson{
+	color: RGB(233,87,63);
+}
+	#intro_content{
+		text-align: center;
+		background-image: url("<%= asset_path('intro_background.jpg') %>");
+		background-size: 130% auto;
+		background-repeat: no-repeat;
+		background-position: -600px 0px;
+	}
+		#intro_content *{
+			opacity: 0;
+		}
+		#intro_title{
+			margin-top: 200px;
+			font-size: 250px;
+			color: black;
+		}
+		#intro_sub{
+			margin-top: -60px;
+			font-size: 45px;
+		}
+		#intro_description{
+			font-size: 60px;
+		}
+	#line{
+		width: 100%;
+		height: 6px;
+		background-color: RGB(233,87,63);
+	}
+	#demo_content{
+		text-align: center;
+		font-size: 12px;
+		height: 0px;
+		overflow: hidden;
+		background-color: RGB(39,40,34);
+		color: white;
+	}
+			.command{
+				color: gray;
+			}
+			#demo_img{
+				width: 400px;
+				height: 400px;
+			}
+		#demo_2{
+			display: none;
+		}
+	#tabs{
+		text-align: center;
+		display: none;
+	}
+		.tab{
+			text-decoration: none;
+
+		}
+			.tab div{
+				text-align: center;
+				width: 200px;
+				height: 30px;
+				border-bottom: solid RGB(233,87,63) 2px;
+			}
+			.tab div span{
+				line-height: 30px;
+				color: RGB(233,87,63);
+			}
+	#about{
+		display: none;
+		margin: 100px 0px 0px 100px;
+		
+	}
+		#about h4{
+			font-size: 40px;
+		}
+		#about p{
+			text-align: left;
+			width: 90%;
+			font-size: 20px;
+			color: RGB(173,163,156);
+		}
+		#about h6{
+			font-size: 16px;
+		}
