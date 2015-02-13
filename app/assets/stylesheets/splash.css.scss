@@ -27,7 +27,7 @@
 }
 	#intro_content{
 		text-align: center;
-		background-image: url("/assets/intro_background.jpg");
+		background-image: url("<%= asset_path('intro_background.jpg') %>");
 		background-size: 130% auto;
 		background-repeat: no-repeat;
 		background-position: -600px 0px;
