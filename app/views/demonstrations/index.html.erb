@@ -1,4 +1,3 @@
-<% content_for :jquery_code do %>
 	<script type="text/javascript">
 		$(document).on('mouseenter','.action:not(#clear)',function(){
 			$(this).css('opacity','0.5');
@@ -85,37 +84,58 @@
 						console.log(data.to_append);
 						$('#table_result').append(data.to_append);
 						$('.pretty').text(String(data.to_append));
-						var width = $('#table_result').width();
 						if(String(data.to_append[1])=='f')
 						{
+							//reset css margin
+							$('#table_result form').css('margin', '0');
+							$('#table_result').css('margin-right', '5px');							
+							//make form results inline-block
 							$('#html_result, #table_result').css('clear', 'none');
 							$('#html_result, #table_result').css('display', 'inline-block');
+							
+							// change height to 100% result from
 							$('#table_result').css('height', '100%');
-							$('#table_result form').css('margin', '0');
+							$('#table_result').css('width', 'auto');
+							var width = $('#table_result').width();
 							var height = $('#table_result').height();
 							var rwidth = $('.results').width();
-							html_width = rwidth-width;
+							html_width = rwidth-width-8;
+
+							//make width and height 0 so that it appears when animated
 							$('#table_result').css('width', '0px');
 							$('#html_result').css('width', '0px');
 							$('#html_result').css('height', '0px');
+
+							//make the table and html show
 							$('#html_result').show();
 							$('#table_result').show();
+
+							//make table and html appear
 							$( "#table_result" ).animate(
 								{ 	width: width,
 									height: '100%' },
 								 {	duration: 2000 }
-								// ,specialEasing: 
-								// { width: "linear" }
 							);	
 							$( "#html_result" ).animate(
 								{ 	height: height,
-									width: html_width-20 }, 
+									width: html_width }, 
 								 {	duration: 2000 }
-								// ,specialEasing: 
-								// { width: "linear" }
 							);	
 						}
 						else {
+							//make table results clear left and block
+							$('#html_result, #table_result').css('clear', 'left');
+							$('#html_result, #table_result').css('display', 'block');
+
+							//make table results clear left and block
+							$('#table_result table').css('width', '100%');
+							$('#table_result').css('width', '100%');
+							$('#html_result').css('width', '100%');
+
+							var width = $('#table_result').width();
+
+							$('#table_result').css('height', 'auto');
+							$('#html_result').css('height', 'auto');
 							$('#table_result').css('width', '0px');
 							$('#html_result').css('width', '0px');
 							$('#html_result').show();
@@ -123,19 +143,9 @@
 							$( "#html_result, #table_result" ).animate(
 								{ width: width }, 
 								{ duration: 2000 }
-								// ,specialEasing: 
-								// { width: "linear" }
 							);	
 						}
 						$('#tree').css('height', 'auto');
-						// $( "#table_result" ).animate(
-						// 	{ width: width }, 
-						// 	{ 	duration: 2000,specialEasing: 
-						// 		{ width: "linear" }
-						// });
-						// $('#html_result').mouseoff(function(){
-						// 	$( "#html_result" ).toggleClass( "onscreen" );
-						// });
 					},
 					'json'
 				);
@@ -148,11 +158,6 @@
 				$(this).siblings().remove();
 			}
 			else {
-				$('#tree').css('height', '230px');
-				$('#method_description').show();
-				$('.pretty').hide();
-				$('#table_result').hide();
-				$('#html_result').hide();
 			}
 			var clicked='.'+$(this).attr('action').replace('add/','');
 			$.get(
@@ -165,19 +170,29 @@
 						$('#tree').append('<div class="nestled action_column"><p class="action green" action="add/table">.table</p><p class="action pink" action="add/form">.form</p></div>');
 						$('#success').hide();
 						$('#sample_code').removeClass('workable');
+						
+
 						$('#table_result').html('');
+						$('.pretty').text('');
+						$('#tree').css('height', '400px');
+						$('#method_description').show();
+						$('#table_result').hide();
+						$('#html_result').hide();
 					}else{
 						var rows='';
+						var color='green';
+						if(data.color=='pink'){
+							color = 'pink';
+						}
 						for(method in data.to_append){
 
 // ADDED jQUERY
-							var color='green';
-							var pinks=['action','class','default','method','middle','no_pw_confirm','select'];
-							for(i in pinks){
-								if(pinks[i]==data.to_append[method]){
-									color='pink';
-								}
-							}
+							// var pinks=['action','class','default','method','middle','no_pw_confirm','select'];
+							// for(i in pinks){
+							// 	if(pinks[i]==data.to_append[method]){
+							// 		color='pink';
+							// 	}
+							// }
 							rows+='<p class="action '+color+'" action="add/'+data.to_append[method]+'">.'+data.to_append[method]+'</p>';
 						}
 						$('#tree').append('<div class="nestled action_column">'+rows+'</div>');
@@ -197,8 +212,6 @@
 			return false;
 		});
 	</script>
-<% end %>
-
 <div class='container'>
 	<div class='row'>
 		<div class='c8 o2 margin-top margin-bottom'>

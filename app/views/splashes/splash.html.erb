@@ -1,0 +1,81 @@
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#intro_title,#intro_sub').delay(300).animate({'opacity':'0.8'},1000);
+		$('#intro_description').delay(1000).animate({'opacity':'0.8'},1000);
+		$('#intro_content').animate({'background-position-x':'0px'},{queue:false,duration:8000});
+		$(document).on('click','#link_about',function(){
+			$('#video').toggle();
+			$('#about').toggle();
+		});
+		$(document).on('mouseenter','#intro_content',function(){
+			$(this).css('cursor','pointer');
+			$(this).mouseleave(function(){
+				$(this).css('cursor','auto');
+			});
+		});
+		$(document).on('click','#intro_content',function(){
+			$('#intro_content').stop(true,true);
+			$('#intro_content *').stop(true,true);
+			$('#intro_content').hide();
+			$('#demo_content').css('height','600px');
+			document.getElementById('video').play();
+			$('#tabs').show();
+		});
+		$('#intro_content').delay(5000).fadeOut(3000,function(){
+			$('#demo_content').animate({'height':'600px'},300,function(){
+				document.getElementById('video').play();
+	    	});
+		    $('#tabs').show();
+		    $('.tab').mouseenter(function(){
+				$(this).css('opacity','0.7');
+				$(this).mouseleave(function(){
+					$(this).css('opacity','1');
+				});
+			});
+		});
+	});
+	</script>
+<div id="intro_content">
+	<h1 id="intro_title">MAKE<span id="intro_sub">gem</span></h1>
+	<h4>gem</h4>
+	<h4 id="intro_description">Tables and Forms. Just two lines of code.</h4>
+</div>
+
+<div id="demo_content">
+	<video id="video" loop>
+		<source src="/assets/demo_vid.mp4" type="video/mp4">
+	</video>
+	<div id="about">
+		<h4>MAKE gem</h4>
+		<p><span class="white">A gem that shortcuts typing out forms and tables for SQL users. It can also generate generic headers.</span></p><br>
+		<p>After specifying your model, MAKE can automatically construct tables and forms for you, just by putting a line in your controller and view. Automatically see <span class="crimson">show/edit/delete links in your tables</span> and <span class="crimson">proper actions and names in your forms</span>. Your tables and forms will reflect relationships between models, and convert column names for readability. Assuming your model is named <span class="cyan">Model_Name</span>, just type <span class="white">@form=</span><span class="cyan">Make</span><span class="white">.form(</span><span class="cyan">Model_Name</span>) in your Rails controller and <span class="white"><&#37;= @form &#37;></span> in your view, and it will return an html-safe string with a basic form based on your model.</p>
+		<p>In addition, you can type <span class="white">@table=</span><span class="cyan">Make</span><span class="white">.table.model(</span><span class="yellow">"Table_Name"</span>)<span class="white">.now!</span> in your controller and <span class="white"><&#37;= @table &#37;></span> in your view to automatically generate a basic table.</p>
+		<p>Care to <span class="crimson">modify table headers (merge, ignore, rename)</span> or <span class="crimson">change form post method</span>? There are many ways to tweek your tables and forms just to your specifications - just click on "Try it yourself!".</p>
+		<p>MAKE also supports creation of <span class="crimson">empty custom tables</span> which print to an external "html_table" file.</p>
+		<p>You can also use <span class="white"><&#37;= </span><span class="cyan">Make</span><span class="white">.header(</span><span class="yellow">"Title"</span><span class="white">) &#37;></span> to make a <span class="crimson">default header</span>.</p><br>
+		<h6 class="white">Gem created by Sara Wong and Ulysses Lin, 2/12/2015.</h6>
+	</div>
+</div>
+<div id="line"></div>
+<div id='tabs'>
+	<a id="link_about" class="tab" href="#">
+		<div class="nestled">
+			<span>About</span>
+		</div>
+	</a>
+	<a class="tab" href="https://github.com/sarapple/make">
+		<div class="nestled">
+			<span>GitHub</span>
+		</div>
+	</a>
+	<a class="tab" href="https://rubygems.org/gems/make">
+		<div class="nestled">
+			<span>Rubygems.org</span>
+		</div>
+	</a>
+	<a class="tab" href="/demonstrations/index">
+		<div class="nestled">
+			<span>Try it yourself!</span>
+		</div>
+	</a>
+</div>

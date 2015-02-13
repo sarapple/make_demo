@@ -254,7 +254,7 @@ form {
 		padding: 3px;
 	}
 	#tree{
-		height: 330px;
+		height: 400px;
 	}
 		.action_column,.first_cols{
 			width: 110px;
@@ -319,8 +319,6 @@ form {
 	}
 		#html_result form, #html_result table {
 			padding-right: 1em;
-/*			width: 100%;
-			height: auto;*/
 		}
 	.pretty {
 		word-wrap: normal;

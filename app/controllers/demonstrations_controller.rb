@@ -6,24 +6,25 @@ class DemonstrationsController < ApplicationController
     session[:tree]={'Make'=>['custom','table']}
     session[:custom]=false
     session[:form]=false
+    session[:color]='green'
   end
   def find
     @to_send=[]
     @code=''
     @workable=false
-    @color='green'
+    # @color='green'
 
     # Will color the 'CHILDREN' of the array members
-    if ['custom','for!'].include? params[:method]
-      @color='pink'
-    end
-    if 'model' == params[:method] && @form
-      @color='pink'
-    end
+    # if ['custom','for!'].include? params[:method]
+    #   @color='pink'
+    # end
+    # if 'model' == params[:method] && session[:form]
+    #   @color='pink'
+    # end
     case params[:method]
       when 'table'
         @to_send=['model','custom']
-        @form = false
+        session[:form] = false
       when 'custom'
         session[:custom]=true
         @to_send=['th']
@@ -31,13 +32,14 @@ class DemonstrationsController < ApplicationController
       when 'model'
 
         # Portion added to UL's code for form section -->
-        if session[:form]
+        if session[:form]   
           @to_send=session[:formChain]
         # <-- Portion added to UL's code for form section
         
         else 
           @to_send=session[:chainable]+['file','for!','now!']
         end
+          session[:form] = false
           @code="'User'"
       when 'th','order','cut','limit','combo','show'
         if session[:custom]
@@ -57,8 +59,9 @@ class DemonstrationsController < ApplicationController
 
       # Portion added to UL's demo code for form section, by Sara --->
       when 'form'
+        session[:color] = 'pink'
         @to_send=['model']
-        session[:form] = true;
+        session[:form] = true
       when 'action'
         session[:formChain].delete('action')
         @to_send=session[:formChain] + ['now!']
@@ -88,9 +91,16 @@ class DemonstrationsController < ApplicationController
         # puts 'what'
         @workable=true
     end
-    render json:{:to_append=>@to_send,:code=>@code,:workable=>@workable,:color=>@color}
+    render json:{:to_append=>@to_send,:code=>@code,:workable=>@workable,:color=>session[:color]}
   end
   def clear
+    # @message=''
+    session[:formChain] = ['action', 'class', 'default', 'method', 'select', 'no_pw_confirm']
+    session[:tree]={'Make'=>['custom','table']}
+    session[:form]=false
+    @to_send=[]
+    @workable=false
+    session[:color]='green'
     session[:custom]=false
     session[:chainable]=['th','order','cut','limit','combo','show']
     render json:{:to_append=>'CLEAR'}
