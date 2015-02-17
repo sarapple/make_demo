@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   get 'testers/index'
   post 'states' => 'testers#states'
   post 'blogs' => 'testers#blogs'
-  post 'users' =>  'testers#users'
-
+  post 'users' =>  'demonstrations#formsubmit'
+  post 'form/submit' =>  'demonstrations#formsubmit'
   get 'demonstrations/index'
   get 'demonstrations/doc'
 

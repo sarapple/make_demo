@@ -352,3 +352,6 @@ form {
 	.instructions {
 		padding-left: 2em;
 	}
+	.array {
+		color: green;
+	}
